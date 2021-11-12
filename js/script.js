@@ -1,8 +1,4 @@
-//Main du croupier
-let dealerHand = [];
 
-//Main du joueur
-let playerHand = [];
 
 
 let app = {
@@ -22,7 +18,19 @@ let app = {
   // Jeu de carte scindé
   cardDeckTopPlay: [],
 
+  // Croupier
+  dealer: {
+    name: "dealer",
+    hand: [],
+    score: 0,
+  },
 
+  // Croupier
+  player: {
+    name: "player",
+    hand: [],
+    score: 0,
+  },
 
   // Marqueur de fin de jeu
   stopGame: false,
@@ -134,39 +142,20 @@ let app = {
   },
 
   // Fonction de distribution d'une carte au Croupier
-  distributeACard: (WhichHand) => {
+  distributeACard: (whichPlayer) => {
 
-    // let handScore = Number(WhichHand.score)
-    // La distribution ne peut se faire que si le Deck cardDeckToPlay contient au moins une carte et que stpGame soit à False
-    if (!app.stopGame) {
-
-      if (app.cardDeckTopPlay.length > 1) {
-        // Récupération de la première carte du Deck cardDeckToPlay
-        let cardToPush = app.cardDeckTopPlay[0];
-        // Ajout de cette carte dans la main du dealer
-        console.log("valeur de la carte :", cardToPush.value, "type de la valeur de la carte :", typeof (cardToPush.value));
-        WhichHand.push(cardToPush);
-        WhichHand.score += Number(cardToPush.value);
-        // Suppression de cette carte du Deck cardDeckToPlay
-        app.cardDeckTopPlay.shift();
-
-
-      } else if (app.stopGame = 1) {
-        // Récupération de la première carte du Deck cardDeckToPlay
-        let cardToPush = app.cardDeckTopPlay[0];
-        // Ajout de cette carte dans la main du dealer
-        WhichHand.push(cardToPush);
-        console.log("valeur de la carte :", cardToPush.value);
-        WhichHand.score += Number(cardToPush.value);
-        // Suppression de cette carte du Deck cardDeckToPlay
-        app.cardDeckTopPlay.shift();
-        app.stopGame = true;
-
-      };
+    if (app.cardDeckTopPlay.length >= 1) {
+      // Récupération de la première carte du Deck cardDeckToPlay
+      let cardToPush = app.cardDeckTopPlay[0];
+      // Ajout de cette carte dans la main du dealer
+      console.log("valeur de la carte :", cardToPush.score, "type de la valeur de la carte :", typeof (cardToPush.value));
+      whichPlayer.hand.push(cardToPush);
+      whichPlayer.score += Number(cardToPush.score);
+      // Suppression de cette carte du Deck cardDeckToPlay
+      app.cardDeckTopPlay.shift();
     };
-    console.log(WhichHand);
+    console.log(whichPlayer);
     console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
-
   },
 
   init: () => {
