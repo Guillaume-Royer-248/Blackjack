@@ -1,0 +1,32 @@
+body {
+    height: 100vh;
+}
+
+.gameZone {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: darkgreen;
+    height: 100%;
+}
+
+.croupierZone {
+    background-color: darkred;
+    display: flex;
+    flex: auto;
+    /* height: 50%; */
+    width: 60%;
+    margin: 30px;
+}
+
+.playerZone {
+    background-color: darkblue;
+    display: flex;
+    flex-wrap: wrap;
+    /* height: 50%; */
+    flex: auto;
+    margin: 30px;
+    width: 60%;
+    margin: 30px;
+}
