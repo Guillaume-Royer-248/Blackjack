@@ -1,3 +1,10 @@
+//Main du croupier
+let dealerHand = [];
+
+//Main du joueur
+let playerHand = [];
+
+
 let app = {
   cardColors: ["heart", "spade", "diamond", "club"],
 
@@ -14,6 +21,11 @@ let app = {
 
   // Jeu de carte scindé
   cardDeckTopPlay: [],
+
+
+
+  // Marqueur de fin de jeu
+  stopGame: false,
 
   addGameZone: () => {
     const gameZone = document.createElement("div");
@@ -110,25 +122,62 @@ let app = {
       return Math.floor(Math.random() * (max - min)) + min;
     };
     // Définit un nombre aléatoire entre 52 et le nombre d'entrées de la table 'cardDeck'
-    let cardFromCardDeckSelected = selectACardInCardDeck(
-      52,
-      app.cardDeck.length
-    );
+    // let cardFromCardDeckSelected = selectACardInCardDeck(52, app.cardDeck.length);
+    let cardFromCardDeckSelected = selectACardInCardDeck(4, 10);
     // coupe le cardDeck de la première carte jusqu'à la carte   'cardFromCardDeckSelected' a la fin du cardDeck
-    let selectedCardsForCardDeckToPlay = app.cardDeck.slice(
-      0,
-      cardFromCardDeckSelected
-    );
+    let selectedCardsForCardDeckToPlay = app.cardDeck.slice(0, cardFromCardDeckSelected);
     // recupère la coupe du cardDeck et alimente de cardDeckToPlay
     app.cardDeckTopPlay = selectedCardsForCardDeckToPlay;
-    console.log("Visu de cardDeckToPlay :", app.cardDeckTopPlay);
+    // console.log("Visu de cardDeckToPlay :", app.cardDeckTopPlay);
     // console.log("Visu de cardDeck :", app.cardDeck);
     // console.log("Visu de cardSet :", app.cardSet);
+  },
+
+  // Fonction de distribution d'une carte au Croupier
+  distributeACard: (WhichHand) => {
+
+    // let handScore = Number(WhichHand.score)
+    // La distribution ne peut se faire que si le Deck cardDeckToPlay contient au moins une carte et que stpGame soit à False
+    if (!app.stopGame) {
+
+      if (app.cardDeckTopPlay.length > 1) {
+        // Récupération de la première carte du Deck cardDeckToPlay
+        let cardToPush = app.cardDeckTopPlay[0];
+        // Ajout de cette carte dans la main du dealer
+        console.log("valeur de la carte :", cardToPush.value, "type de la valeur de la carte :", typeof (cardToPush.value));
+        WhichHand.push(cardToPush);
+        WhichHand.score += Number(cardToPush.value);
+        // Suppression de cette carte du Deck cardDeckToPlay
+        app.cardDeckTopPlay.shift();
+
+
+      } else if (app.stopGame = 1) {
+        // Récupération de la première carte du Deck cardDeckToPlay
+        let cardToPush = app.cardDeckTopPlay[0];
+        // Ajout de cette carte dans la main du dealer
+        WhichHand.push(cardToPush);
+        console.log("valeur de la carte :", cardToPush.value);
+        WhichHand.score += Number(cardToPush.value);
+        // Suppression de cette carte du Deck cardDeckToPlay
+        app.cardDeckTopPlay.shift();
+        app.stopGame = true;
+
+      };
+    };
+    console.log(WhichHand);
+    console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
+
   },
 
   init: () => {
     app.initGameRoom();
     app.createCardDeckToPlay();
+    app.playerHand = [];
+    app.dealerHand = [];
+    console.log("nombre de carte dans le Deck :", app.cardDeckTopPlay.length);
+    console.log("Main du dealer :", app.dealerHand);
+    console.log("Main du joueur :", app.playerHand);
+    // app.distributeACard(app.dealerHand);
   },
 };
 
