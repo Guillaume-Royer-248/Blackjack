@@ -4,6 +4,7 @@
 let app = {
   cardColors: ["heart", "spade", "diamond", "club"],
 
+  // Valeurs des cartes : 2 -> 10 cartes simples, 11 = Vallet, 12 = Dame, 13 = Roi, 14 = As
   cardValues: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
 
   // Nombre de jeux de 56 cartes que je souhaite intégrer au jeu de cartes complet
@@ -68,6 +69,20 @@ let app = {
     app.addPlayerZone();
   },
 
+  ChooseAceValue: () => {
+    let playerAnswer = prompt("Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?");
+
+    while (playerAnswer !== "1" && playerAnswer !== "11") {
+      playerAnswer = prompt("Vous avez donné la mauvaise réponse ! \n Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?");
+    }
+
+    if (playerAnswer === "1") {
+      return 1;
+    } else if (playerAnswer === "11") {
+      return 11;
+    }
+  },
+
   /**
    * Fonction qui permet de générer un set de cartes rangées dans l'ordre des couleurs (coeur, carreaux, pique, treffle) et des valeurs (2->As)
    */
@@ -130,8 +145,8 @@ let app = {
       return Math.floor(Math.random() * (max - min)) + min;
     };
     // Définit un nombre aléatoire entre 52 et le nombre d'entrées de la table 'cardDeck'
-    // let cardFromCardDeckSelected = selectACardInCardDeck(52, app.cardDeck.length);
-    let cardFromCardDeckSelected = selectACardInCardDeck(4, 10);
+    let cardFromCardDeckSelected = selectACardInCardDeck(52, app.cardDeck.length);
+    // let cardFromCardDeckSelected = selectACardInCardDeck(4, 10);
     // coupe le cardDeck de la première carte jusqu'à la carte   'cardFromCardDeckSelected' a la fin du cardDeck
     let selectedCardsForCardDeckToPlay = app.cardDeck.slice(0, cardFromCardDeckSelected);
     // recupère la coupe du cardDeck et alimente de cardDeckToPlay
@@ -158,6 +173,8 @@ let app = {
     console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
   },
 
+
+
   init: () => {
     app.initGameRoom();
     app.createCardDeckToPlay();
@@ -166,6 +183,10 @@ let app = {
     console.log("nombre de carte dans le Deck :", app.cardDeckTopPlay.length);
     console.log("Main du dealer :", app.dealerHand);
     console.log("Main du joueur :", app.playerHand);
+    app.distributeACard(app.player);
+    app.distributeACard(app.dealer);
+    app.distributeACard(app.player);
+    app.distributeACard(app.dealer);
     // app.distributeACard(app.dealerHand);
   },
 };
