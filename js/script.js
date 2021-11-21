@@ -70,12 +70,13 @@ let app = {
   },
 
   ChooseAceValue: () => {
+    // Demande au joueur quelle valeur il souhaite pour l'As
     let playerAnswer = prompt("Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?");
-
+    // Tant que sa réponse n'est pas 1 ou 11 on lui repose la question
     while (playerAnswer !== "1" && playerAnswer !== "11") {
       playerAnswer = prompt("Vous avez donné la mauvaise réponse ! \n Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?");
     }
-
+    // Si la réposne est "1" on renvoi 1 et si la réponse est "11" on renvoi 11
     if (playerAnswer === "1") {
       return 1;
     } else if (playerAnswer === "11") {
@@ -94,6 +95,8 @@ let app = {
           let cardValue = () => {
             if (app.cardValues[j] < 9) {
               return app.cardValues[j];
+            } else if (app.cardValues[j] = 14) {
+              return 11;
             } else {
               return 10;
             }
@@ -162,9 +165,14 @@ let app = {
     if (app.cardDeckTopPlay.length >= 1) {
       // Récupération de la première carte du Deck cardDeckToPlay
       let cardToPush = app.cardDeckTopPlay[0];
-      // Ajout de cette carte dans la main du dealer
-      console.log("valeur de la carte :", cardToPush.score, "type de la valeur de la carte :", typeof (cardToPush.value));
+      // Si le joueur tire un As on lui demande quelle valeur il souhaite que cet As prenne (1 ou 11)
+      if (cardToPush.value === 14) {
+        cardToPush.score = app.ChooseAceValue();
+      }
+      // Ajout de cette carte dans la main du joueur
+      console.log("valeur de la carte :", cardToPush.value, "Le score de la carte est :", cardToPush.score);
       whichPlayer.hand.push(cardToPush);
+      // Incrémentation du score du joueur
       whichPlayer.score += Number(cardToPush.score);
       // Suppression de cette carte du Deck cardDeckToPlay
       app.cardDeckTopPlay.shift();
@@ -172,8 +180,6 @@ let app = {
     console.log(whichPlayer);
     console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
   },
-
-
 
   init: () => {
     app.initGameRoom();
