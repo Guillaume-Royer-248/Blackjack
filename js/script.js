@@ -178,7 +178,7 @@ let app = {
       app.cardDeckTopPlay.shift();
     };
     console.log(whichPlayer);
-    console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
+    // console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
   },
 
   init: () => {
@@ -190,9 +190,9 @@ let app = {
     console.log("Main du dealer :", app.dealerHand);
     console.log("Main du joueur :", app.playerHand);
     app.distributeACard(app.player);
-    app.distributeACard(app.dealer);
-    app.distributeACard(app.player);
-    app.distributeACard(app.dealer);
+    setTimeout(app.distributeACard(app.dealer), 3000);
+    setTimeout(app.distributeACard(app.player), 3000);
+    setTimeout(app.distributeACard(app.dealer), 3000);
     // app.distributeACard(app.dealerHand);
   },
 };
