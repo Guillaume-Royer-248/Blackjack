@@ -66,6 +66,8 @@ let app = {
     app.addPlayerZone();
   },
 
+  // TODO Créer une fonction l'affichage d'une carte sur le DOM
+
   ChooseAceValue: (whichPlayer) => {
     // Demande au joueur quelle valeur il souhaite pour l'As
     let playerAnswer = prompt(`${whichPlayer.name.toUpperCase()} Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?`);
@@ -157,7 +159,11 @@ let app = {
     // console.log("Visu de cardSet :", app.cardSet);
   },
 
-  // Fonction de distribution d'une carte au Croupier
+  /**
+   * Fonction de distribution d'une carte au Croupier
+   * @param {string} whichPlayer 
+   * @param {Boolean} visibility 
+   */
   distributeACard: (whichPlayer, visibility) => {
 
     if (app.cardDeckTopPlay.length >= 1) {
@@ -186,11 +192,14 @@ let app = {
     setTimeout(app.distributeACard(app.dealer, true), 3000);
     setTimeout(app.distributeACard(app.player, true), 3000);
     setTimeout(app.distributeACard(app.dealer, true), 3000);
+    // TODO Appeler la fonction d'affichage d'une carte sur le DOM
     // let playerScore = app.player.score;
     // let dealerScore = app.dealer.score;
     // console.log('player score :', playerScore, app.player.hand);
     // console.log('dealer score :', dealerScore, app.dealer.hand);
   },
+
+  // TODO Faire la fonction de suite du jeu
 
   init: () => {
     app.initGameRoom();
