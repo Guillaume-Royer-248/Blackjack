@@ -5,7 +5,7 @@
 ### Contexte :hearts::
 
 Développer un jeu de blackJack pour au moins un joueur.  
-Technos autorisées **HTML + CSS + JS + NodeJs**  
+Technos autorisées **HTML + CSS + JS**  
 Organisation du projet libre  
 Rendu du projet libre (pur texte ou graphique)
 

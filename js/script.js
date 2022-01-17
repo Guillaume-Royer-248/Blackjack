@@ -1,6 +1,3 @@
-
-
-
 let app = {
   cardColors: ["heart", "spade", "diamond", "club"],
 
@@ -69,9 +66,9 @@ let app = {
     app.addPlayerZone();
   },
 
-  ChooseAceValue: () => {
+  ChooseAceValue: (whichPlayer) => {
     // Demande au joueur quelle valeur il souhaite pour l'As
-    let playerAnswer = prompt("Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?");
+    let playerAnswer = prompt(`${whichPlayer.name.toUpperCase()} Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?`);
     // Tant que sa réponse n'est pas 1 ou 11 on lui repose la question
     while (playerAnswer !== "1" && playerAnswer !== "11") {
       playerAnswer = prompt("Vous avez donné la mauvaise réponse ! \n Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?");
@@ -105,6 +102,7 @@ let app = {
             color: app.cardColors[i],
             value: app.cardValues[j],
             score: cardValue(),
+            visible: false,
           };
           app.cardSet.push(newCardSetEntry);
         }
@@ -160,25 +158,38 @@ let app = {
   },
 
   // Fonction de distribution d'une carte au Croupier
-  distributeACard: (whichPlayer) => {
+  distributeACard: (whichPlayer, visibility) => {
 
     if (app.cardDeckTopPlay.length >= 1) {
       // Récupération de la première carte du Deck cardDeckToPlay
       let cardToPush = app.cardDeckTopPlay[0];
       // Si le joueur tire un As on lui demande quelle valeur il souhaite que cet As prenne (1 ou 11)
       if (cardToPush.value === 14) {
-        cardToPush.score = app.ChooseAceValue();
+        cardToPush.score = app.ChooseAceValue(whichPlayer);
       }
       // Ajout de cette carte dans la main du joueur
-      console.log("valeur de la carte :", cardToPush.value, "Le score de la carte est :", cardToPush.score);
+      // Changement de la visibilité de la carte
+      cardToPush.visible = visibility;
+      // console.log("valeur de la carte :", cardToPush.value, "Le score de la carte est :", cardToPush.score);
       whichPlayer.hand.push(cardToPush);
       // Incrémentation du score du joueur
       whichPlayer.score += Number(cardToPush.score);
       // Suppression de cette carte du Deck cardDeckToPlay
       app.cardDeckTopPlay.shift();
     };
-    console.log(whichPlayer);
+    // console.log(whichPlayer);
     // console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
+  },
+
+  playFirstRound: () => {
+    app.distributeACard(app.player, true);
+    setTimeout(app.distributeACard(app.dealer, true), 3000);
+    setTimeout(app.distributeACard(app.player, true), 3000);
+    setTimeout(app.distributeACard(app.dealer, true), 3000);
+    // let playerScore = app.player.score;
+    // let dealerScore = app.dealer.score;
+    // console.log('player score :', playerScore, app.player.hand);
+    // console.log('dealer score :', dealerScore, app.dealer.hand);
   },
 
   init: () => {
@@ -187,13 +198,8 @@ let app = {
     app.playerHand = [];
     app.dealerHand = [];
     console.log("nombre de carte dans le Deck :", app.cardDeckTopPlay.length);
-    console.log("Main du dealer :", app.dealerHand);
-    console.log("Main du joueur :", app.playerHand);
-    app.distributeACard(app.player);
-    setTimeout(app.distributeACard(app.dealer), 3000);
-    setTimeout(app.distributeACard(app.player), 3000);
-    setTimeout(app.distributeACard(app.dealer), 3000);
-    // app.distributeACard(app.dealerHand);
+    app.playFirstRound();
+
   },
 };
 
