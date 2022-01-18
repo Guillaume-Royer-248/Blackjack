@@ -19,6 +19,8 @@ Rendu du projet libre (pur texte ou graphique)
 
 ### But du jeu :diamonds::
 
+https://www.guide-blackjack.com/regles-du-black-jack.html
+
 La partie oppose individuellement chaque joueur contre la banque.  
 **Le but est de battre le croupier sans dépasser le score de 21.**  
 Dès qu'un joueur fait plus que 21, on dit qu'il « brûle » et il perd sa mise initiale.
