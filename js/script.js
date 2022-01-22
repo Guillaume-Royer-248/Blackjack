@@ -1,5 +1,6 @@
 
 const app = {
+    // Paramètres des cartes (couleurs, valeurs) et nombre de jeux de cartes pour une partie
     cardParams: {
         cardColors: ['heart', 'spade', 'diamond', 'club'],
         // Valeurs des cartes : 2 -> 10 cartes simples, 11 = Vallet, 12 = Dame, 13 = Roi, 14 = As
@@ -17,6 +18,7 @@ const app = {
     // Jeu de carte scindé
     cardDeckTopPlay: [],
 
+    // Tableau des joueurs
     players: [
         {
             name: 'Croupier',
@@ -24,20 +26,6 @@ const app = {
             score: 0,
         },
     ],
-
-    // Croupier
-    dealer: {
-        name: 'dealer',
-        hand: [],
-        score: 0,
-    },
-
-    // Croupier
-    player: {
-        name: 'player',
-        hand: [],
-        score: 0,
-    },
 
     // Marqueur de fin de jeu
     stopGame: false,
@@ -79,22 +67,29 @@ const app = {
    
 */
 
+    /**
+     * Fonction permettant d'initialiser plusieurs joueurs à la table de jeu
+     */
+
+
     initPlayers: () => {
-        // Demande au joueur quelle valeur il souhaite pour l'As
+        // Demande combien de joueurs souhaitent jouer
         let answer = prompt('Combien de joueurs à la table ?\n--  4 joueurs maximum  --');
         let howManyPlayers = Number(answer);
 
+        // Si la réponse donnée n'est pas un nombre on redemande
         while (isNaN(howManyPlayers)) {
             let answer2 = prompt('Recommence, ce n\'est pas un nombre! \nCombien de joueurs à la table ?');
             howManyPlayers = Number(answer2);
         }
 
+        // Si le nombre de joueurs est supérieur à 4 on redemande
         while (howManyPlayers > 4) {
             let answer3 = prompt('Le nombre de joueurs à la table est limité a 4 !\nCombien de joueurs à la table ?');
             howManyPlayers = Number(answer3);
         }
 
-
+        // Demande des noms des joueurs
         for (let nb = 1; nb <= howManyPlayers; nb++) {
             let nameAnswer = prompt(`Quel est le nom du joueur ${nb} ?`);
             let newPlayer = {
@@ -107,8 +102,9 @@ const app = {
         // console.log(app.players);
         // console.log(app.players[0].name, app.players[1].name)
 
-    },
+        // TODO : Initialiser une zone de jeu pour chaque joueur dans la zone des joueurs et afficher le  nom du joueur dans sa zone de jeu
 
+    },
 
     // TODO Créer une fonction l'affichage d'une carte sur le DOM
 
@@ -252,14 +248,15 @@ const app = {
     // TODO Faire la fonction de suite du jeu
 
     init: () => {
-        // app.initGameRoom();
+
         // Création du deck de jeu
         app.createCardDeckToPlay();
         console.log('nombre de carte dans le Deck :', app.cardDeckTopPlay.length);
 
         // Initialisation des joueurs
         app.initPlayers();
-        // Init des mains des joueurs
+
+        // Premier tour de distribution
         app.players.forEach(item => {
             item.hand = [];
         });
@@ -267,9 +264,9 @@ const app = {
         app.distributeACard(0, true);
         // Distribution de 2 cartes à tous les joueurs
         for (let iteration = 1; iteration <= 2; iteration++) {
-            for (let i = 1; i <= app.players.length - 1; i++) {
+            for (let playerNb = 1; playerNb <= app.players.length - 1; playerNb++) {
                 // console.log('valeur de i :', i);
-                app.distributeACard(i, true);
+                app.distributeACard(playerNb, true);
             }
         }
 
