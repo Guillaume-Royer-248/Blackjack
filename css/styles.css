@@ -20,7 +20,7 @@ body {
     margin: 30px;
 }
 
-.playerZone {
+.playersZone {
     background-color: darkblue;
     display: flex;
     flex-wrap: wrap;

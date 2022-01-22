@@ -1,9 +1,12 @@
-let app = {
-    cardColors: ['heart', 'spade', 'diamond', 'club'],
-    // Valeurs des cartes : 2 -> 10 cartes simples, 11 = Vallet, 12 = Dame, 13 = Roi, 14 = As
-    cardValues: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-    // Nombre de jeux de 56 cartes que je souhaite intégrer au jeu de cartes complet
-    nbCardSetInCardGame: 6,
+
+const app = {
+    cardParams: {
+        cardColors: ['heart', 'spade', 'diamond', 'club'],
+        // Valeurs des cartes : 2 -> 10 cartes simples, 11 = Vallet, 12 = Dame, 13 = Roi, 14 = As
+        cardValues: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+        // Nombre de jeux de 56 cartes que je souhaite intégrer au jeu de cartes complet
+        nbCardSetInCardGame: 6,
+    },
 
     // Jeu de carte complet ordonné
     cardSet: [],
@@ -13,6 +16,14 @@ let app = {
 
     // Jeu de carte scindé
     cardDeckTopPlay: [],
+
+    players: [
+        {
+            name: 'Croupier',
+            hand: [],
+            score: 0,
+        },
+    ],
 
     // Croupier
     dealer: {
@@ -31,6 +42,8 @@ let app = {
     // Marqueur de fin de jeu
     stopGame: false,
 
+    /*
+    *********************** INIT DE LA ZONE DE JEU *************************
     addGameZone: () => {
         const gameZone = document.createElement('div');
         gameZone.id = 'gameZone';
@@ -49,58 +62,73 @@ let app = {
         gameZone.appendChild(croupierZone);
     },
 
-    addPlayerZone: () => {
-        const playerZone = document.createElement('div');
-        playerZone.id = 'playerZone';
-        playerZone.className = 'playerZone';
+    addPlayersZone: () => {
+        const playersZone = document.createElement('div');
+        playersZone.id = 'playersZone';
+        playersZone.className = 'playersZone';
         const gameZone = document.querySelector('#gameZone');
         // console.log(croupierZone);
-        gameZone.appendChild(playerZone);
+        gameZone.appendChild(playersZone);
     },
-
+    
     initGameRoom: () => {
         app.addGameZone();
         app.addCroupierZone();
-        app.addPlayerZone();
+        app.addPlayersZone();
     },
+   
+*/
+
+    initPlayers: () => {
+        // Demande au joueur quelle valeur il souhaite pour l'As
+        let answer = prompt('Combien de joueurs à la table ?\n--  4 joueurs maximum  --');
+        let howManyPlayers = Number(answer);
+
+        while (isNaN(howManyPlayers)) {
+            let answer2 = prompt('Recommence, ce n\'est pas un nombre! \nCombien de joueurs à la table ?');
+            howManyPlayers = Number(answer2);
+        }
+
+        while (howManyPlayers > 4) {
+            let answer3 = prompt('Le nombre de joueurs à la table est limité a 4 !\nCombien de joueurs à la table ?');
+            howManyPlayers = Number(answer3);
+        }
+
+
+        for (let nb = 1; nb <= howManyPlayers; nb++) {
+            let nameAnswer = prompt(`Quel est le nom du joueur ${nb} ?`);
+            let newPlayer = {
+                name: nameAnswer,
+                hand: [],
+                score: 0,
+            };
+            app.players.push(newPlayer);
+        }
+        // console.log(app.players);
+        // console.log(app.players[0].name, app.players[1].name)
+
+    },
+
 
     // TODO Créer une fonction l'affichage d'une carte sur le DOM
 
-    ChooseAceValue: (whichPlayer) => {
-        // Demande au joueur quelle valeur il souhaite pour l'As
-        let playerAnswer = prompt(`${whichPlayer.name.toUpperCase()} Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?`);
-        // Tant que sa réponse n'est pas 1 ou 11 on lui repose la question
-        while (playerAnswer !== '1' && playerAnswer !== '11') {
-            playerAnswer = prompt('Vous avez donné la mauvaise réponse ! \n Quelle Valeur Souhaitez vous pour l\'As ? 1 ou 11 ?');
-        }
-        // Si la réposne est "1" on renvoi 1 et si la réponse est "11" on renvoi 11
-        if (playerAnswer === '1') {
-            return 1;
-        } else if (playerAnswer === '11') {
-            return 11;
-        }
-    },
-
-    /**
-     * Fonction qui permet de générer un set de cartes rangées dans l'ordre des couleurs (coeur, carreaux, pique, treffle) et des valeurs (2->As)
-     */
     createCardSet: () => {
         app.cardSet = [];
-        for (let k = 1; k < app.nbCardSetInCardGame + 1; k++) {
-            for (let i = 0; i < app.cardColors.length; i++) {
-                for (let j = 0; j < app.cardValues.length; j++) {
+        for (let k = 1; k < app.cardParams.nbCardSetInCardGame + 1; k++) {
+            for (let i = 0; i < app.cardParams.cardColors.length; i++) {
+                for (let j = 0; j < app.cardParams.cardValues.length; j++) {
                     let cardValue = () => {
-                        if (app.cardValues[j] < 9) {
-                            return app.cardValues[j];
-                        } else if (app.cardValues[j] === 14) {
+                        if (app.cardParams.cardValues[j] < 9) {
+                            return app.cardParams.cardValues[j];
+                        } else if (app.cardParams.cardValues[j] === 14) {
                             return 11;
                         } else {
                             return 10;
                         }
                     };
                     let newCardSetEntry = {
-                        color: app.cardColors[i],
-                        value: app.cardValues[j],
+                        color: app.cardParams.cardColors[i],
+                        value: app.cardParams.cardValues[j],
                         score: cardValue(),
                         visible: false,
                     };
@@ -147,15 +175,19 @@ let app = {
         };
         // Définit un nombre aléatoire entre 52 et le nombre d'entrées de la table 'cardDeck'
         let cardFromCardDeckSelected = selectACardInCardDeck(52, app.cardDeck.length);
-        // let cardFromCardDeckSelected = selectACardInCardDeck(4, 10);
         // coupe le cardDeck de la première carte jusqu'à la carte   'cardFromCardDeckSelected' a la fin du cardDeck
         let selectedCardsForCardDeckToPlay = app.cardDeck.slice(0, cardFromCardDeckSelected);
         // recupère la coupe du cardDeck et alimente de cardDeckToPlay
         app.cardDeckTopPlay = selectedCardsForCardDeckToPlay;
-        // console.log("Visu de cardDeckToPlay :", app.cardDeckTopPlay);
-        // console.log("Visu de cardDeck :", app.cardDeck);
-        // console.log("Visu de cardSet :", app.cardSet);
+        // console.log('Visu de cardDeckToPlay :', app.cardDeckTopPlay);
+        // console.log('Visu de cardDeck :', app.cardDeck);
+        // console.log('Visu de cardSet :', app.cardSet);
     },
+
+
+    /**
+     * Fonction qui permet de générer un set de cartes rangées dans l'ordre des couleurs (coeur, carreaux, pique, treffle) et des valeurs (2->As)
+     */
 
     /**
      * Fonction de distribution d'une carte au Croupier
@@ -167,23 +199,43 @@ let app = {
         if (app.cardDeckTopPlay.length >= 1) {
             // Récupération de la première carte du Deck cardDeckToPlay
             let cardToPush = app.cardDeckTopPlay[0];
+
             // Si le joueur tire un As on lui demande quelle valeur il souhaite que cet As prenne (1 ou 11)
-            if (cardToPush.value === 14) {
-                cardToPush.score = app.ChooseAceValue(whichPlayer);
-            }
+
+            // if (cardToPush.value === 14) {
+            //     cardToPush.score = app.ChooseAceValue(whichPlayer);
+            // }
+
             // Ajout de cette carte dans la main du joueur
             // Changement de la visibilité de la carte
             cardToPush.visible = visibility;
             // console.log("valeur de la carte :", cardToPush.value, "Le score de la carte est :", cardToPush.score);
-            whichPlayer.hand.push(cardToPush);
+            // console.log(app.players[whichPlayer].hand.push(cardToPush));
+            app.players[whichPlayer].hand.push(cardToPush);
             // Incrémentation du score du joueur
-            whichPlayer.score += Number(cardToPush.score);
+            app.players[whichPlayer].score += Number(cardToPush.score);
             // Suppression de cette carte du Deck cardDeckToPlay
             app.cardDeckTopPlay.shift();
         }
         // console.log(whichPlayer);
         // console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
     },
+
+    ChooseAceValue: (whichPlayer) => {
+        // Demande au joueur quelle valeur il souhaite pour l'As
+        let playerAnswer = prompt(`${whichPlayer.name.toUpperCase()} Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?`);
+        // Tant que sa réponse n'est pas 1 ou 11 on lui repose la question
+        while (playerAnswer !== '1' && playerAnswer !== '11') {
+            playerAnswer = prompt('Vous avez donné la mauvaise réponse ! \n Quelle Valeur Souhaitez vous pour l\'As ? 1 ou 11 ?');
+        }
+        // Si la réposne est "1" on renvoi 1 et si la réponse est "11" on renvoi 11
+        if (playerAnswer === '1') {
+            return 1;
+        } else if (playerAnswer === '11') {
+            return 11;
+        }
+    },
+
 
     playFirstRound: () => {
         app.distributeACard(app.player, true);
@@ -200,12 +252,29 @@ let app = {
     // TODO Faire la fonction de suite du jeu
 
     init: () => {
-        app.initGameRoom();
+        // app.initGameRoom();
+        // Création du deck de jeu
         app.createCardDeckToPlay();
-        app.playerHand = [];
-        app.dealerHand = [];
         console.log('nombre de carte dans le Deck :', app.cardDeckTopPlay.length);
-        app.playFirstRound();
+
+        // Initialisation des joueurs
+        app.initPlayers();
+        // Init des mains des joueurs
+        app.players.forEach(item => {
+            item.hand = [];
+        });
+        // Distribution d'une carte au croupier
+        app.distributeACard(0, true);
+        // Distribution de 2 cartes à tous les joueurs
+        for (let iteration = 1; iteration <= 2; iteration++) {
+            for (let i = 1; i <= app.players.length - 1; i++) {
+                // console.log('valeur de i :', i);
+                app.distributeACard(i, true);
+            }
+        }
+
+        console.log(app.players);
+        // app.playFirstRound();
 
     },
 };
