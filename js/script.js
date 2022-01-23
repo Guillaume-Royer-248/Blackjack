@@ -24,6 +24,7 @@ const app = {
             name: 'Croupier',
             hand: [],
             score: 0,
+            money: 0,
         },
     ],
 
@@ -50,22 +51,31 @@ const app = {
         gameZone.appendChild(croupierZone);
     },
 
-    addPlayersZone: () => {
-        const playersZone = document.createElement('div');
-        playersZone.id = 'playersZone';
-        playersZone.className = 'playersZone';
-        const gameZone = document.querySelector('#gameZone');
-        // console.log(croupierZone);
-        gameZone.appendChild(playersZone);
-    },
-    
     initGameRoom: () => {
         app.addGameZone();
         app.addCroupierZone();
         app.addPlayersZone();
     },
-   
-*/
+    
+    */
+
+    addPlayerZone: (player, money, score) => {
+        const playerZone = document.createElement('div');
+        playerZone.className = `playerZone player-${player}`;
+        const gameZone = document.querySelector('.playersZone');
+        // console.log(croupierZone);
+        gameZone.appendChild(playerZone);
+        const playerName = document.createElement('h2');
+        playerName.className = `playerName player-${player}`;
+        playerName.textContent = player;
+        playerZone.appendChild(playerName);
+        const playerMoney = document.createElement('h3');
+        playerMoney.className = `playerMoney player-${player}`;
+        playerMoney.textContent = `Montant ${money} €`;
+        playerZone.appendChild(playerMoney);
+    },
+
+
 
     /**
      * Fonction permettant d'initialiser plusieurs joueurs à la table de jeu
@@ -96,11 +106,15 @@ const app = {
                 name: nameAnswer,
                 hand: [],
                 score: 0,
+                money: 0,
             };
             app.players.push(newPlayer);
+            app.addPlayerZone(newPlayer.name);
+
         }
         // console.log(app.players);
         // console.log(app.players[0].name, app.players[1].name)
+
 
         // TODO : Initialiser une zone de jeu pour chaque joueur dans la zone des joueurs et afficher le  nom du joueur dans sa zone de jeu
 
