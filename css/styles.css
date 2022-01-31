@@ -54,31 +54,35 @@ body {
 .playerName {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 10px;
-    /* margin-bottom: 40px; */
     color: black;
     font-weight: bold;
     font-size: 1.2rem;
     text-align: center;
-    width: 100%;
+    /* width: 100%; */
     height: auto;
 }
 
 .playerMoney {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 10px;
-    margin-bottom: 40px;
     color: black;
     font-weight: bold;
     font-size: 1.2rem;
     text-align: center;
-    width: 100%;
+    /* width: 100%; */
     height: auto;
+}
+
+.playerMoney::before {
+    width: 20px;
+    height: 20px;
+    background-color: black;
 }
 
 .card {
     min-width: 98px;
     min-height: 143px;
-    margin: -30px;
+    margin: 0 -30px;
     border-radius: 5px;
     transform: rotate(-4deg);
     background-image: url("../assets/cards.png");

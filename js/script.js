@@ -71,7 +71,7 @@ const app = {
         playerZone.appendChild(playerName);
         const playerMoney = document.createElement('h3');
         playerMoney.className = `playerMoney player-${player}`;
-        playerMoney.textContent = `Montant ${money} €`;
+        playerMoney.textContent = `${money} €`;
         playerZone.appendChild(playerMoney);
     },
 
@@ -80,8 +80,6 @@ const app = {
     /**
      * Fonction permettant d'initialiser plusieurs joueurs à la table de jeu
      */
-
-
     initPlayers: () => {
         // Demande combien de joueurs souhaitent jouer
         let answer = prompt('Combien de joueurs à la table ?\n--  4 joueurs maximum  --');
@@ -99,19 +97,19 @@ const app = {
             howManyPlayers = Number(answer3);
         }
 
-        // Demande des noms des joueurs
+        // Demande des noms des joueurs et initialisation des paramètres des joueurs
         for (let nb = 1; nb <= howManyPlayers; nb++) {
             let nameAnswer = prompt(`Quel est le nom du joueur ${nb} ?`);
             let newPlayer = {
                 name: nameAnswer,
                 hand: [],
                 score: 0,
-                money: 0,
+                money: 500,
             };
             app.players.push(newPlayer);
-            app.addPlayerZone(newPlayer.name);
-
+            app.addPlayerZone(newPlayer.name, newPlayer.money);
         }
+
         // console.log(app.players);
         // console.log(app.players[0].name, app.players[1].name)
 
@@ -122,6 +120,9 @@ const app = {
 
     // TODO Créer une fonction l'affichage d'une carte sur le DOM
 
+    /**
+     * Fonction qui permet de générer un set de cartes rangées dans l'ordre des couleurs (coeur, carreaux, pique, treffle) et des valeurs (2->As)
+     */
     createCardSet: () => {
         app.cardSet = [];
         for (let k = 1; k < app.cardParams.nbCardSetInCardGame + 1; k++) {
@@ -195,9 +196,7 @@ const app = {
     },
 
 
-    /**
-     * Fonction qui permet de générer un set de cartes rangées dans l'ordre des couleurs (coeur, carreaux, pique, treffle) et des valeurs (2->As)
-     */
+
 
     /**
      * Fonction de distribution d'une carte au Croupier
