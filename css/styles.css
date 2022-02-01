@@ -1,87 +1,120 @@
 body {
     height: 100vh;
+    background-color: lightgrey;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.buttonZone {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 .gameZone {
     display: flex;
+    flex: auto;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: darkgreen;
     min-height: 100%;
 }
 
-.croupierZone {
-    background-color: darkred;
+.playersZone, .playerZone, .croupierZone {
     display: flex;
     flex: auto;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    min-height: 30%;
-    width: 60%;
-    margin: 30px;
+
+}
+
+.croupierZone {
+    background-color: rgb(236, 236, 236);
+    flex-direction: column;
+    border-radius: 10px;
+    /* border: black 1px solid; */
+    box-shadow: 5px 5px 12px 0px rgba(0, 0, 0, 0.3);
+    /* min-height: 30%; */
+    min-width: 80%;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .playersZone {
-    background-color: darkblue;
-    display: flex;
+    background-color: rgb(236, 236, 236);
     flex-direction: row;
-    flex-wrap: wrap;
-    flex: auto;
-    min-height: 70%;
-    justify-content: center;
-    align-content: center;
-    margin: 30px;
-    width: 60%;
-    margin: 30px;
+    border-radius: 10px;
+    /* border: black 1px solid; */
+    box-shadow: 5px 5px 12px 0px rgba(0, 0, 0, 0.3);
+    /* min-height: 70%; */
+    min-width: 80%;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 .playerZone {
+    flex-direction: column;
+    width: auto;
+}
+
+.cardZone {
     display: flex;
-    flex-wrap: wrap;
-    flex: auto;
+    margin: 10px;
     justify-content: center;
     align-content: center;
-    background-color: greenyellow;
-    margin: 20px;
-    display: flex;
-    flex: auto;
-    width: auto;
-    height: 90%;
 }
 
 .playerName {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 10px;
+    /* padding: 10px; */
     color: black;
     font-weight: bold;
     font-size: 1.2rem;
     text-align: center;
-    /* width: 100%; */
     height: auto;
+}
+
+.scoreText {
+    font-size: 0.8rem;
+    font-style: italic;
+    font-weight: lighter;
+    margin: 10px;
+    display: block;
+
 }
 
 .playerMoney {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
     color: black;
+    position: relative;
     font-weight: bold;
     font-size: 1.2rem;
     text-align: center;
-    /* width: 100%; */
-    height: auto;
+
 }
 
 .playerMoney::before {
-    width: 20px;
-    height: 20px;
-    background-color: black;
+    content: url(../assets/jetons_small.png);
+    align-content: center;
+    margin: 10px;
+
 }
 
 .card {
-    min-width: 98px;
-    min-height: 143px;
+    width: 98px;
+    height: 143px;
     margin: 0 -30px;
     border-radius: 5px;
     transform: rotate(-4deg);
@@ -133,7 +166,7 @@ body {
 }
 
 .card-8 {
-    background-position-x: -688px;
+    background-position-x: -689px;
 }
 
 .card-9 {

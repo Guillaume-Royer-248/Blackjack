@@ -28,97 +28,11 @@ const app = {
         },
     ],
 
+    // Niveau de difficulté du jeu : true = avec indication des scores des cartes de chaque joueur, False sans indication de score des cartes des joueurs
+    easyLevel: true,
+
     // Marqueur de fin de jeu
     stopGame: false,
-
-    /*
-    *********************** INIT DE LA ZONE DE JEU *************************
-    addGameZone: () => {
-        const gameZone = document.createElement('div');
-        gameZone.id = 'gameZone';
-        gameZone.className = 'gameZone';
-        const scriptBalise = document.querySelector('#scriptBalise');
-        const parentDiv = scriptBalise.parentNode;
-        parentDiv.insertBefore(gameZone, scriptBalise);
-    },
-
-    addCroupierZone: () => {
-        const croupierZone = document.createElement('div');
-        croupierZone.id = 'croupierZone';
-        croupierZone.className = 'croupierZone';
-        const gameZone = document.querySelector('#gameZone');
-        // console.log(croupierZone);
-        gameZone.appendChild(croupierZone);
-    },
-
-    initGameRoom: () => {
-        app.addGameZone();
-        app.addCroupierZone();
-        app.addPlayersZone();
-    },
-    
-    */
-
-    addPlayerZone: (player, money, score) => {
-        const playerZone = document.createElement('div');
-        playerZone.className = `playerZone player-${player}`;
-        const gameZone = document.querySelector('.playersZone');
-        // console.log(croupierZone);
-        gameZone.appendChild(playerZone);
-        const playerName = document.createElement('h2');
-        playerName.className = `playerName player-${player}`;
-        playerName.textContent = player;
-        playerZone.appendChild(playerName);
-        const playerMoney = document.createElement('h3');
-        playerMoney.className = `playerMoney player-${player}`;
-        playerMoney.textContent = `${money} €`;
-        playerZone.appendChild(playerMoney);
-    },
-
-
-
-    /**
-     * Fonction permettant d'initialiser plusieurs joueurs à la table de jeu
-     */
-    initPlayers: () => {
-        // Demande combien de joueurs souhaitent jouer
-        let answer = prompt('Combien de joueurs à la table ?\n--  4 joueurs maximum  --');
-        let howManyPlayers = Number(answer);
-
-        // Si la réponse donnée n'est pas un nombre on redemande
-        while (isNaN(howManyPlayers)) {
-            let answer2 = prompt('Recommence, ce n\'est pas un nombre! \nCombien de joueurs à la table ?');
-            howManyPlayers = Number(answer2);
-        }
-
-        // Si le nombre de joueurs est supérieur à 4 on redemande
-        while (howManyPlayers > 4) {
-            let answer3 = prompt('Le nombre de joueurs à la table est limité a 4 !\nCombien de joueurs à la table ?');
-            howManyPlayers = Number(answer3);
-        }
-
-        // Demande des noms des joueurs et initialisation des paramètres des joueurs
-        for (let nb = 1; nb <= howManyPlayers; nb++) {
-            let nameAnswer = prompt(`Quel est le nom du joueur ${nb} ?`);
-            let newPlayer = {
-                name: nameAnswer,
-                hand: [],
-                score: 0,
-                money: 500,
-            };
-            app.players.push(newPlayer);
-            app.addPlayerZone(newPlayer.name, newPlayer.money);
-        }
-
-        // console.log(app.players);
-        // console.log(app.players[0].name, app.players[1].name)
-
-
-        // TODO : Initialiser une zone de jeu pour chaque joueur dans la zone des joueurs et afficher le  nom du joueur dans sa zone de jeu
-
-    },
-
-    // TODO Créer une fonction l'affichage d'une carte sur le DOM
 
     /**
      * Fonction qui permet de générer un set de cartes rangées dans l'ordre des couleurs (coeur, carreaux, pique, treffle) et des valeurs (2->As)
@@ -195,13 +109,88 @@ const app = {
         // console.log('Visu de cardSet :', app.cardSet);
     },
 
+    /**
+         * Fonction qui permet d'ajouter sur le DOM une zone d'un joueur ainsi que sa structure (nom, montant du wallet)
+         * @param {string} player Nom du joueur
+         * @param {number} money Montant du wallet du joueur
+         */
+    addPlayerZone: (player, money) => {
+        const playerZone = document.createElement('div');
+        playerZone.className = `playerZone player-${player}`;
+        const gameZone = document.querySelector('.playersZone');
+        // console.log(croupierZone);
+        gameZone.appendChild(playerZone);
+        const playerName = document.createElement('h2');
+        playerName.className = `playerName player-${player}`;
+        playerName.textContent = player;
+        playerZone.appendChild(playerName);
 
-
+        const playerMoney = document.createElement('h3');
+        playerMoney.className = `playerMoney player-${player}`;
+        playerMoney.textContent = `${money} €`;
+        playerZone.appendChild(playerMoney);
+        const cardZone = document.createElement('div');
+        cardZone.className = `cardZone cardZone-${player}`;
+        playerZone.appendChild(cardZone);
+    },
 
     /**
-     * Fonction de distribution d'une carte au Croupier
-     * @param {string} whichPlayer 
-     * @param {Boolean} visibility 
+         * Fonction permettant d'initialiser plusieurs joueurs à la table de jeu et d'afficher sur le DOM les zones de jeu des joueurs
+         */
+    initPlayers: () => {
+        // Demande combien de joueurs souhaitent jouer
+        let answer = prompt('Combien de joueurs à la table ?\n--  4 joueurs maximum  --');
+        let howManyPlayers = Number(answer);
+
+        // Si la réponse donnée n'est pas un nombre on redemande
+        while (isNaN(howManyPlayers)) {
+            let answer2 = prompt('Recommence, ce n\'est pas un nombre! \nCombien de joueurs à la table ?');
+            howManyPlayers = Number(answer2);
+        }
+
+        // Si le nombre de joueurs est supérieur à 4 on redemande
+        while (howManyPlayers > 4) {
+            let answer3 = prompt('Le nombre de joueurs à la table est limité a 4 !\nCombien de joueurs à la table ?');
+            howManyPlayers = Number(answer3);
+        }
+
+        // Demande des noms des joueurs et initialisation des paramètres des joueurs
+        for (let nb = 1; nb <= howManyPlayers; nb++) {
+            let nameAnswer = prompt(`Quel est le nom du joueur ${nb} ?`);
+            let newPlayer = {
+                name: nameAnswer,
+                hand: [],
+                score: 0,
+                money: 500,
+            };
+            app.players.push(newPlayer);
+            app.addPlayerZone(newPlayer.name, newPlayer.money);
+        }
+
+        // console.log(app.players);
+        // console.log(app.players[0].name, app.players[1].name)
+
+    },
+
+    /**
+     * Fonction qui permet d'ajouter une carte sur le DOM dans la cardZone du joueur
+     * @param {String} wichPlayer Index du joueur dans le tableau des joueurs
+     * @param {Object} card Carte qui est distribuée au joueur
+     */
+    addCardInPlayerZone: (wichPlayer, card) => {
+        // console.log(app.players[0].name);
+        // console.log('Player : ', wichPlayer, 'card : ', card);
+        const playerZone = document.querySelector(`.cardZone-${app.players[wichPlayer].name}`);
+        const newCard = document.createElement('div');
+        newCard.className = `card card-${card.color} card-${card.value}`;
+        playerZone.appendChild(newCard);
+
+    },
+
+    /**
+     * Fonction de distribution d'une carte au joueur (ajout d'une carte depuis le cardDeckToPlay vers la main du joueur) puis ajout sur le DOM de cette carte dans la cardZone du joueur
+     * @param {String} whichPlayer Index du joueur dans le tableau des joueurs
+     * @param {Boolean} visibility Etat de la carte true = visible, False = cachée
      */
     distributeACard: (whichPlayer, visibility) => {
 
@@ -210,7 +199,6 @@ const app = {
             let cardToPush = app.cardDeckTopPlay[0];
 
             // Si le joueur tire un As on lui demande quelle valeur il souhaite que cet As prenne (1 ou 11)
-
             // if (cardToPush.value === 14) {
             //     cardToPush.score = app.ChooseAceValue(whichPlayer);
             // }
@@ -225,11 +213,20 @@ const app = {
             app.players[whichPlayer].score += Number(cardToPush.score);
             // Suppression de cette carte du Deck cardDeckToPlay
             app.cardDeckTopPlay.shift();
+
+            // Ajoute la carte sur le DOM
+            app.addCardInPlayerZone(whichPlayer, cardToPush);
+
         }
         // console.log(whichPlayer);
         // console.log("nombre de cartes restantes dans le jeu :", app.cardDeckTopPlay.length);
     },
 
+    /**
+     * Fonction permettant de faire le choix si l'as vaut 1 ou vaut 11
+     * @param {Number} whichPlayer Index du tableau des joueurs
+     * @returns Valeur de la carte "As"
+     */
     ChooseAceValue: (whichPlayer) => {
         // Demande au joueur quelle valeur il souhaite pour l'As
         let playerAnswer = prompt(`${whichPlayer.name.toUpperCase()} Quelle Valeur Souhaitez vous pour l'As ? 1 ou 11 ?`);
@@ -245,17 +242,37 @@ const app = {
         }
     },
 
-
+    /**
+     * Fonction d'execution de la première donne de jeu
+     */
     playFirstRound: () => {
-        app.distributeACard(app.player, true);
-        setTimeout(app.distributeACard(app.dealer, true), 3000);
-        setTimeout(app.distributeACard(app.player, true), 3000);
-        setTimeout(app.distributeACard(app.dealer, true), 3000);
-        // TODO Appeler la fonction d'affichage d'une carte sur le DOM
-        // let playerScore = app.player.score;
-        // let dealerScore = app.dealer.score;
-        // console.log('player score :', playerScore, app.player.hand);
-        // console.log('dealer score :', dealerScore, app.dealer.hand);
+        // Initialise les mains des joueurs avant le premier tour de distribution
+        app.players.forEach(item => {
+            item.hand = [];
+        });
+
+        // Distribution d'une carte au croupier
+        app.distributeACard(0, true);
+
+        // Distribution de 2 cartes à tous les joueurs
+        for (let iteration = 1; iteration <= 2; iteration++) {
+            for (let playerNb = 1; playerNb <= app.players.length - 1; playerNb++) {
+                // console.log('valeur de i :', i);
+                app.distributeACard(playerNb, true);
+            }
+        }
+        // console.log(app.players);
+
+        // Si l'option de jeu facile est activée alors on affiche pour chacun des joueurs le score représenté par ses cartes
+        if (app.easyLevel) {
+            app.players.forEach((player) => {
+                const playerName = document.querySelector(`h2.player-${player.name}`);
+                const scoreText = document.createElement('span');
+                scoreText.className = 'scoreText';
+                scoreText.textContent = `( score des cartes : ${player.score})`;
+                playerName.appendChild(scoreText);
+            });
+        }
     },
 
     // TODO Faire la fonction de suite du jeu
@@ -269,22 +286,8 @@ const app = {
         // Initialisation des joueurs
         app.initPlayers();
 
-        // Premier tour de distribution
-        app.players.forEach(item => {
-            item.hand = [];
-        });
-        // Distribution d'une carte au croupier
-        app.distributeACard(0, true);
-        // Distribution de 2 cartes à tous les joueurs
-        for (let iteration = 1; iteration <= 2; iteration++) {
-            for (let playerNb = 1; playerNb <= app.players.length - 1; playerNb++) {
-                // console.log('valeur de i :', i);
-                app.distributeACard(playerNb, true);
-            }
-        }
-
-        console.log(app.players);
-        // app.playFirstRound();
+        // Lance la première phase de jeu : la première donne
+        app.playFirstRound();
 
     },
 };
