@@ -24,7 +24,7 @@ const app = {
             name: 'Croupier',
             hand: [],
             score: 0,
-            money: 0,
+            money: 1000,
         },
     ],
 
@@ -134,6 +134,23 @@ const app = {
         playerZone.appendChild(cardZone);
     },
 
+    addDealerZone: (player, money) => {
+        const croupierZone = document.querySelector('.croupierZone');
+
+        const playerName = document.createElement('h2');
+        playerName.className = `playerName player-${player}`;
+        playerName.textContent = player;
+        croupierZone.appendChild(playerName);
+
+        const playerMoney = document.createElement('h3');
+        playerMoney.className = `playerMoney player-${player}`;
+        playerMoney.textContent = `${money} €`;
+        croupierZone.appendChild(playerMoney);
+        const cardZone = document.createElement('div');
+        cardZone.className = `cardZone cardZone-${player}`;
+        croupierZone.appendChild(cardZone);
+    },
+
     /**
          * Fonction permettant d'initialiser plusieurs joueurs à la table de jeu et d'afficher sur le DOM les zones de jeu des joueurs
          */
@@ -153,6 +170,8 @@ const app = {
             let answer3 = prompt('Le nombre de joueurs à la table est limité a 4 !\nCombien de joueurs à la table ?');
             howManyPlayers = Number(answer3);
         }
+
+        app.addDealerZone(app.players[0].name, app.players[0].money);
 
         // Demande des noms des joueurs et initialisation des paramètres des joueurs
         for (let nb = 1; nb <= howManyPlayers; nb++) {
@@ -275,6 +294,24 @@ const app = {
         }
     },
 
+
+    sartGame: () => {
+
+        // location.reload();
+        const gameZone = document.querySelector('.gameZone');
+        gameZone.classList.remove('hidden');
+
+        // Initialisation des joueurs
+        app.initPlayers();
+
+        // Lance la première phase de jeu : la première donne
+        app.playFirstRound();
+
+        const buttonZone = document.querySelector('.start-button');
+        buttonZone.classList.add('hidden');
+    },
+
+
     // TODO Faire la fonction de suite du jeu
 
     init: () => {
@@ -283,12 +320,8 @@ const app = {
         app.createCardDeckToPlay();
         console.log('nombre de carte dans le Deck :', app.cardDeckTopPlay.length);
 
-        // Initialisation des joueurs
-        app.initPlayers();
-
-        // Lance la première phase de jeu : la première donne
-        app.playFirstRound();
-
+        const startButton = document.querySelector('.start-button');
+        startButton.addEventListener('click', app.sartGame);
     },
 };
 

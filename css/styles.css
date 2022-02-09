@@ -13,18 +13,32 @@ body {
 .buttonZone {
     width: 20%;
     display: flex;
+    flex: 1;
     justify-content: center;
     align-items: center;
     align-content: center;
 }
 
+.start-button {
+    width: 200px;
+    height: 80px;
+    border-radius: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 1.8rem;
+}
+
 .gameZone {
     display: flex;
-    flex: auto;
+    flex: 4;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100%;
+}
+
+.hidden {
+    display: none;
 }
 
 .playersZone, .playerZone, .croupierZone {
