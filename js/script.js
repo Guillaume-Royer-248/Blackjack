@@ -201,8 +201,35 @@ const app = {
         // console.log('Player : ', wichPlayer, 'card : ', card);
         const playerZone = document.querySelector(`.cardZone-${app.players[wichPlayer].name}`);
         const newCard = document.createElement('div');
-        newCard.className = `card card-${card.color} card-${card.value}`;
+        newCard.className = 'card';
         playerZone.appendChild(newCard);
+        const newColor = document.createElement('div');
+        newColor.className = `color color--${card.color}`;
+        newCard.appendChild(newColor);
+        const newValue = document.createElement('div');
+        if(card.color === 'heart' || card.color === 'diamond'){
+            newValue.className = 'value value--red';
+        } else {
+            newValue.className = 'value value--black';
+        }
+        switch(card.value) {
+        case 11 : 
+            newValue.innerHTML= 'J';
+            break;
+        case 12 : 
+            newValue.innerHTML= 'Q';
+            break;
+        case 13 :
+            newValue.innerHTML= 'K';
+            break;
+        case 14 :
+            newValue.innerHTML= 'A';
+            break;
+        default:
+            newValue.innerHTML= card.value;
+        }
+        newCard.appendChild(newValue);
+        
 
     },
 
@@ -307,8 +334,8 @@ const app = {
         // Lance la première phase de jeu : la première donne
         app.playFirstRound();
 
-        const buttonZone = document.querySelector('.start-button');
-        buttonZone.classList.add('hidden');
+        // const buttonZone = document.querySelector('.start-button');
+        // buttonZone.classList.add('hidden');
     },
 
 

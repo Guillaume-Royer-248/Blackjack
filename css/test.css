@@ -1,0 +1,56 @@
+.player_card-zone {
+    display: flex;
+    flex-direction: row;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #e8e8e8;
+    /* background: linear-gradient(311deg, rgba(252, 252, 252, 1) 0%, rgba(218, 217, 217, 1) 59%, rgba(252, 252, 252, 1) 100%); */
+    min-width: 100px;
+    min-height: 150px;
+    margin: 5px;
+    border-radius: 5px;
+
+}
+
+.color {
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-width: 80px;
+    min-height: 80px;
+}
+
+.color--spade {
+    background-image: url(../assets/Spade.png);
+}
+
+.color--heart {
+    background-image: url(../assets/Heart.png);
+}
+
+.color--diamond {
+    background-image: url(../assets/Diamond.png);
+}
+
+.color--club {
+    background-image: url(../assets/Club.png);
+}
+
+.value {
+    font-size: 3rem;
+    font-weight: bold;
+    padding-left: 30px;
+    font-family: 'Fredoka One', cursive;
+}
+
+.value--black {
+    color: black;
+}
+
+.value--red {
+    color: red;
+}
